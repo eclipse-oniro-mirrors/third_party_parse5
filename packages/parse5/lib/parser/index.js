@@ -325,6 +325,15 @@ class Parser {
 
         this.treeAdapter = this.options.treeAdapter;
         this.pendingScript = null;
+        this.nodeInfo = {};
+
+        if(this.options.componentValidator){
+            this.validator = this.options.componentValidator;
+        }
+
+        if(this.options.compileResult){
+            this.compileResult = this.options.compileResult;
+        }
 
         if (this.options.sourceCodeLocationInfo) {
             Mixin.install(this, LocationInfoParserMixin);
@@ -416,6 +425,7 @@ class Parser {
 
     //Parsing loop
     _runParsingLoop(scriptHandler) {
+        let lastToken = {};
         while (!this.stopped) {
             this._setupTokenizerCDATAMode();
 
@@ -424,7 +434,10 @@ class Parser {
             if (token.type === Tokenizer.HIBERNATION_TOKEN) {
                 break;
             }
-
+            if (token.type !== Tokenizer.EOF_TOKEN && token.type !== Tokenizer.WHITESPACE_CHARACTER_TOKEN) {
+                lastToken =token;
+            }
+            checkselfClosingNode(this, token);
             if (this.skipNextNewLine) {
                 this.skipNextNewLine = false;
 
@@ -443,6 +456,7 @@ class Parser {
                 break;
             }
         }
+        checkInvalid(this, lastToken);
     }
 
     runParsingLoopForCurrentChunk(writeCallback, scriptHandler) {
@@ -881,6 +895,70 @@ class Parser {
         return HTML.SPECIAL_ELEMENTS[ns][tn];
     }
 }
+
+/**
+ * Check if the node is self closing.
+ * @param {Object} parse parse5 object.
+ * @param {Object} token Hml text token information.
+ */
+ function checkselfClosingNode(parse, token) {
+    const tagName = (token.tagName || "").toLowerCase();
+    const selfClosing = token.selfClosing;
+    const flag = parse.validator.isSupportedSelfClosing(tagName);
+    if (parse.nodeInfo.tn && tagName && !parse.nodeInfo.sc) {
+      const loc =
+        String(token.location.startLine) + String(token.location.startCol);
+      if (
+        !flag ||
+        (loc !== parse.nodeInfo.pos && token.type === Tokenizer.START_TAG_TOKEN)
+      ) {
+        parse.compileResult.log.push({
+          line: String(token.location.startLine) || 1,
+          column: String(token.location.startCol) || 1,
+          reason: 'ERROR: tag `' + parse.nodeInfo.tn + '` must be closed, please follow norm',
+        });
+        parse.nodeInfo = {};
+      }
+    }
+    if (tagName && flag) {
+      if (token.type === Tokenizer.START_TAG_TOKEN && !selfClosing) {
+        parse.nodeInfo.tn = tagName;
+        parse.nodeInfo.sc = false;
+        parse.nodeInfo.pos =
+          String(token.location.line) + String(token.location.col);
+      }
+      if (
+        token.type === Tokenizer.END_TAG_TOKEN &&
+        tagName === parse.nodeInfo.tn
+      ) {
+        parse.nodeInfo.sc = true;
+      }
+    }
+    if (!flag && selfClosing && token.type === Tokenizer.START_TAG_TOKEN) {
+      parse.compileResult.log.push({
+        line: token.location.startLine || 1,
+        column: token.location.startCol || 1,
+        reason: "ERROR: tag `" + tagName + "` can not use selfClosing",
+      });
+    }
+  }
+  
+  /**
+   * Check if the html text is legal.
+   * @param {Object} lastToken Hml text last token information.
+   */
+  function checkInvalid(lastToken) {
+    if (
+      lastToken.type && lastToken.type !== Tokenizer.END_TAG_TOKEN &&
+      lastToken.type !== Tokenizer.COMMENT_TOKEN
+    ) {
+      compileResult.log.push({
+      line: lastToken.location.startLine || 1,
+      column: lastToken.location.startCol || 1,
+      reason: "ERROR: hml content is invalid. Please check it.",
+      });
+    }
+  }
 
 module.exports = Parser;
 
@@ -1546,7 +1624,7 @@ function hrStartTagInBody(p, token) {
 
     p._appendElement(token, NS.HTML);
     p.framesetOk = false;
-    token.ackSelfClosing = true;
+    p.ackSelfClosing = true;
 }
 
 function imageStartTagInBody(p, token) {
