@@ -202,7 +202,31 @@ function isScriptDataDoubleEscapeSequenceEnd(cp: number): boolean {
     return isWhitespace(cp) || cp === $.SOLIDUS || cp === $.GREATER_THAN_SIGN;
 }
 
+const componentValidator = { isSupportedSelfClosing: () => false };
+
+interface Validator {
+    isSupportedSelfClosing(tagName: string): boolean;
+}
+
+interface CompileResult {
+    jsonTemplate: {},
+    deps: [],
+    log: {
+        line: number,
+        column: number,
+        reason: string
+    }[]
+}
+
+interface NodeInfo {
+    tn: string,
+    sc: boolean,
+    pos: string
+}
+
 export interface TokenizerOptions {
+    componentValidator?: Validator;
+    compileResult?: CompileResult;
     sourceCodeLocationInfo?: boolean;
 }
 
@@ -237,6 +261,10 @@ export class Tokenizer {
     public lastStartTagName = '';
     public active = false;
 
+    public nodeInfo: NodeInfo = { tn: '', sc: false, pos: '' };
+    public validator: Validator = componentValidator;
+    public compileResult: CompileResult = { jsonTemplate: {}, deps: [], log: [] };
+
     public state = State.DATA;
     private returnState = State.DATA;
 
@@ -252,6 +280,13 @@ export class Tokenizer {
     constructor(private options: TokenizerOptions, private handler: TokenHandler) {
         this.preprocessor = new Preprocessor(handler);
         this.currentLocation = this.getCurrentLocation(-1);
+        
+        if(options.componentValidator){
+            this.validator = options.componentValidator;
+        }
+        if(options.compileResult){
+            this.compileResult = options.compileResult;
+        }
     }
 
     //Errors
@@ -478,6 +513,8 @@ export class Tokenizer {
 
     private emitCurrentTagToken(): void {
         const ct = this.currentToken as TagToken;
+
+        checkselfClosingNode(this, ct);
 
         this.prepareToken(ct);
 
@@ -3122,5 +3159,48 @@ export class Tokenizer {
 
         this._flushCodePointConsumedAsCharacterReference(this.charRefCode);
         this._reconsumeInState(this.returnState);
+    }
+}
+
+function checkselfClosingNode(parse: Tokenizer, token: TagToken) {
+    const tagName: string = (token.tagName || "").toLowerCase();
+    const selfClosing: boolean = token.selfClosing;
+    const flag: boolean = parse.validator.isSupportedSelfClosing(tagName);
+    if (parse.nodeInfo.tn && tagName && !parse.nodeInfo.sc) {
+        const loc: string =
+            String(token.location?.startLine) + ',' + String(token.location?.startCol);
+        if (
+            !flag ||
+            (loc !== parse.nodeInfo.pos && token.type === TokenType.START_TAG)
+        ) {
+            const posInfo: string = parse.nodeInfo.pos;
+            const posArr: string[] = posInfo.split(',');
+            parse.compileResult.log.push({
+                line: Number(posArr[0]) || 1,
+                column: Number(posArr[1]) || 1,
+                reason: 'ERROR: tag `' + parse.nodeInfo.tn + '` must be closed, please follow norm',
+            });
+            parse.nodeInfo = { tn: '', sc: false, pos: '' };
+        }
+    }
+    if (tagName && flag) {
+        if (token.type === TokenType.START_TAG && !selfClosing) {
+            parse.nodeInfo.tn = tagName;
+            parse.nodeInfo.sc = false;
+            parse.nodeInfo.pos =
+                String(token.location?.startLine) + ',' + String(token.location?.startCol);
+        }
+        if (
+            token.type === TokenType.END_TAG && tagName === parse.nodeInfo.tn
+        ) {
+            parse.nodeInfo.sc = true;
+        }
+    }
+    if (!flag && selfClosing && token.type === TokenType.START_TAG) {
+        parse.compileResult.log.push({
+            line: token.location?.startLine || 1,
+            column: token.location?.startCol || 1,
+            reason: "ERROR: tag `" + tagName + "` can not use selfClosing",
+        });
     }
 }
