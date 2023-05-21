@@ -15,9 +15,8 @@
 </div>
 <br>
 
-
 <p align="center">
-  📖 <a href="https://github.com/inikulin/parse5/tree/master/packages/parse5-parser-stream/docs/index.md"><b>Documentation</b></a> 📖
+  📖 <a href="https://parse5.js.org/modules/parse5_parser_stream.html"><b>Documentation</b></a> 📖
 </p>
 
 ---
@@ -31,5 +30,5 @@
 </p>
 
 <p align="center">
-    <a href="https://github.com/inikulin/parse5/tree/master/docs/version-history.md">Version history</a>
+    <a href="https://github.com/inikulin/parse5/releases">Changelog</a>
 </p>
