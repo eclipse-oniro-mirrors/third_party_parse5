@@ -1,25 +1,39 @@
-# third_party_parse5
+<p align="center">
+    <a href="https://github.com/inikulin/parse5">
+        <img src="https://raw.github.com/inikulin/parse5/master/media/logo.png" alt="parse5" />
+    </a>
+</p>
 
-#### Description
-HTML parser and serializer.
+<p align="center">
+<i>HTML parsing/serialization toolset for Node.js. <a href="https://html.spec.whatwg.org/multipage/">WHATWG HTML Living Standard (aka HTML5)</a>-compliant.</i>
+</p>
 
-#### License
-Copyright (c) 2013-2019 Ivan Nikulin (ifaaan@gmail.com, https://github.com/inikulin)
+<p align="center">
+  <a href="https://github.com/inikulin/parse5/actions/workflows/nodejs-test.yml"><img alt="Build Status" src="https://img.shields.io/github/workflow/status/inikulin/parse5/Node.js%20CI?label=tests&style=flat"></a>
+  <a href="https://www.npmjs.com/package/parse5"><img alt="NPM Version" src="https://img.shields.io/npm/v/parse5.svg"></a>
+  <a href="https://npmjs.org/package/parse5"><img alt="Downloads" src="http://img.shields.io/npm/dm/parse5.svg"></a>
+  <a href="https://npmjs.org/package/parse5"><img alt="Downloads total" src="http://img.shields.io/npm/dt/parse5.svg"></a>
+</p>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+<p align="center">
+<b><i>parse5</i></b> provides nearly everything you may need when dealing with HTML. It's the fastest spec-compliant HTML parser
+for Node to date. It parses HTML the way the latest version of your browser does. It has proven itself reliable in such projects
+as <a href="https://github.com/tmpvar/jsdom">jsdom</a>, <a href="https://angular.io">Angular</a>,
+<a href="https://lit.dev">Lit</a>, <a href="https://github.com/cheeriojs/cheerio">Cheerio</a>,
+<a href="https://github.com/rehypejs/rehype">rehype</a> and many more.
+</p>
 
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+---
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+<p align="center">
+  <a href="https://github.com/inikulin/parse5/tree/master/docs/list-of-packages.md">List of parse5 toolset packages</a>
+</p>
+
+<p align="center">
+  <a href="http://astexplorer.net/#/1CHlCXc4n4">Online playground</a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/inikulin/parse5/releases">Changelog</a>
+</p>
+</p>
