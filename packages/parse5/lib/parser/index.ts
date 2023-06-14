@@ -2165,6 +2165,24 @@ function startTagInBody<T extends TreeAdapterTypeMap>(p: Parser<T>, token: TagTo
         case $.WBR:
         case $.AREA:
         case $.EMBED:
+        case $.WEB:
+        case $.XCOMPONENT:
+        case $.RATING:
+        case $.CANVAS:
+        case $.CAMERA:
+        case $.AUDIO:
+        case $.VIDEO:
+        case $.SWITCH:
+        case $.QRCODE:
+        case $.PICKER_VIEW:
+        case $.PICKER:
+        case $.PROGRESS:
+        case $.SEARCH:
+        case $.SLIDER:
+        case $.CHART:
+        case $.CALENDAR:
+        case $.DIVIDER:    
+        case $.IMAGE_ANIMATOR:
         case $.KEYGEN: {
             areaStartTagInBody(p, token);
             break;
