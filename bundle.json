@@ -10,11 +10,13 @@
     "dirs": {},
     "scripts": {},
     "component": {
-        "name": "thirdparty_parse5",
-        "subsystem": "developtools",
+        "name": "parse5",
+        "subsystem": "thirdparty",
         "syscap": [],
         "features": [],
-        "adapted_system_type": [],
+        "adapted_system_type": [
+            "standard"
+        ],
         "rom": "",
         "ram": "",
         "deps": {
