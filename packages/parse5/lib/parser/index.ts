@@ -2065,9 +2065,6 @@ function rtStartTagInBody<T extends TreeAdapterTypeMap>(p: Parser<T>, token: Tag
 function mathStartTagInBody<T extends TreeAdapterTypeMap>(p: Parser<T>, token: TagToken): void {
     p._reconstructActiveFormattingElements();
 
-    foreignContent.adjustTokenMathMLAttrs(token);
-    foreignContent.adjustTokenXMLAttrs(token);
-
     if (token.selfClosing) {
         p._appendElement(token, NS.MATHML);
     } else {
@@ -2079,9 +2076,6 @@ function mathStartTagInBody<T extends TreeAdapterTypeMap>(p: Parser<T>, token: T
 
 function svgStartTagInBody<T extends TreeAdapterTypeMap>(p: Parser<T>, token: TagToken): void {
     p._reconstructActiveFormattingElements();
-
-    foreignContent.adjustTokenSVGAttrs(token);
-    foreignContent.adjustTokenXMLAttrs(token);
 
     if (token.selfClosing) {
         p._appendElement(token, NS.SVG);
@@ -3465,15 +3459,6 @@ function startTagInForeignContent<T extends TreeAdapterTypeMap>(p: Parser<T>, to
     } else {
         const current = p._getAdjustedCurrentElement();
         const currentNs = p.treeAdapter.getNamespaceURI(current);
-
-        if (currentNs === NS.MATHML) {
-            foreignContent.adjustTokenMathMLAttrs(token);
-        } else if (currentNs === NS.SVG) {
-            foreignContent.adjustTokenSVGTagName(token);
-            foreignContent.adjustTokenSVGAttrs(token);
-        }
-
-        foreignContent.adjustTokenXMLAttrs(token);
 
         if (token.selfClosing) {
             p._appendElement(token, currentNs);
