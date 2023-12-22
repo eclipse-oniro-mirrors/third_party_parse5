@@ -14,7 +14,7 @@
         "importsNotUsedAsValues": "error",
         "isolatedModules": true,
 
-        "composite": true,
+        "composite": false,
         "declarationMap": true,
         "sourceMap": true
     },
