@@ -4,8 +4,8 @@
         "rootDir": "lib",
         "outDir": "dist",
         "lib": [
-          "es2020"
-        ],
+            "es2020"
+          ],
         "declaration": false,
         "declarationMap": false,
         "sourceMap": false

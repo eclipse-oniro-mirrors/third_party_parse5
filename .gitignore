@@ -8,3 +8,4 @@ packages/*/dist/
 test/dist/
 .DS_Store
 tsconfig.tsbuildinfo
+coverage/

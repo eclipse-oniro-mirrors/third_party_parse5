@@ -11,12 +11,12 @@ generateParsingTests(
         expectErrors: [
             //TODO(GH-448): Foreign content behaviour was updated in the HTML spec.
             //The old test suite still tests the old behaviour.
-            '269.foreign-fragment',
-            '270.foreign-fragment',
-            '307.foreign-fragment',
-            '309.foreign-fragment',
-            '316.foreign-fragment',
-            '317.foreign-fragment',
+            '0.foreign-fragment',
+            '1.foreign-fragment',
+            '38.foreign-fragment',
+            '40.foreign-fragment',
+            '47.foreign-fragment',
+            '48.foreign-fragment',
         ],
     },
     (test, opts) => ({
@@ -30,7 +30,7 @@ generateParsingTests(
     {
         withoutErrors: true,
         suitePath: new URL('../../../../test/data/html5lib-tests/tree-construction', import.meta.url),
-        expectErrors: ['505.search-element', '506.search-element'],
+        expectErrors: ['0.search-element', '1.search-element'],
     },
     (test, opts) => ({
         node: test.fragmentContext ? parseFragment(test.fragmentContext, test.input, opts) : parse(test.input, opts),
@@ -76,6 +76,13 @@ describe('parser', () => {
         expect(doctype).toHaveProperty('name', '');
         expect(doctype).toHaveProperty('publicId', '');
         expect(doctype).toHaveProperty('systemId', '');
+    });
+
+    it('Regression - CRLF inside </noscript> (GH-710)', () => {
+        const onParseError = jest.fn();
+        parse('<!doctype html><noscript>foo</noscript\r\n>', { onParseError });
+
+        expect(onParseError).not.toHaveBeenCalled();
     });
 
     describe('Tree adapters', () => {
