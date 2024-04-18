@@ -129,11 +129,11 @@ export const adapter: TreeAdapter<Htmlparser2TreeAdapterMap> = {
     },
 
     setTemplateContent(templateElement: Element, contentElement: Document): void {
-        adapter.appendChild(templateElement, contentElement as AnyNode as ChildNode);
+        adapter.appendChild(templateElement, contentElement);
     },
 
     getTemplateContent(templateElement: Element): Document {
-        return templateElement.children[0] as AnyNode as Document;
+        return templateElement.children[0] as Document;
     },
 
     setDocumentType(document: Document, name: string, publicId: string, systemId: string): void {
@@ -149,9 +149,9 @@ export const adapter: TreeAdapter<Htmlparser2TreeAdapterMap> = {
             adapter.appendChild(document, doctypeNode);
         }
 
-        doctypeNode['x-name'] = name ?? undefined;
-        doctypeNode['x-publicId'] = publicId ?? undefined;
-        doctypeNode['x-systemId'] = systemId ?? undefined;
+        doctypeNode['x-name'] = name;
+        doctypeNode['x-publicId'] = publicId;
+        doctypeNode['x-systemId'] = systemId;
     },
 
     setDocumentMode(document: Document, mode: html.DOCUMENT_MODE): void {

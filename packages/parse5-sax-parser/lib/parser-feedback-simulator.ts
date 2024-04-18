@@ -146,7 +146,6 @@ export class ParserFeedbackSimulator implements TokenHandler {
                 this._leaveCurrentNamespace();
             } else {
                 const currentNs = this.namespaceStack[0];
-
                 tn = token.tagID;
 
                 if (!token.selfClosing && foreignContent.isIntegrationPoint(tn, currentNs, token.attrs)) {
