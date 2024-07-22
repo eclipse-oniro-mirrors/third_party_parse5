@@ -27,10 +27,6 @@
             "sub_component": [],
             "inner_kits": [
                 {
-                    "header": {
-                        "header_base": "//third_party/parse5",
-                        "header_files": []
-                    },
                     "name": "//third_party/parse5:parse5_ark_hap"
                 }
             ],
