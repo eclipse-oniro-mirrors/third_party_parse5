@@ -2,7 +2,7 @@
     "name": "@ohos/parse5",
     "description": "HTML parser and serializer.",
     "version": "4.0",
-    "license": "Apache V2",
+    "license": "Apache-2.0",
     "publishAs": "code-segment",
     "segment": {
         "destPath": "third_party/parse5"
