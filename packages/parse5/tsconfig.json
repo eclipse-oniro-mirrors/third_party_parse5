@@ -2,7 +2,13 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "rootDir": "lib",
-        "outDir": "dist"
+        "outDir": "dist",
+        "lib": [
+            "es2020"
+          ],
+        "declaration": false,
+        "declarationMap": false,
+        "sourceMap": false
     },
     "include": ["**/*.ts"],
     "exclude": ["**/*.test.ts", "dist"]

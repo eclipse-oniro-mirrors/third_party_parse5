@@ -150,15 +150,6 @@ export class ParserFeedbackSimulator implements TokenHandler {
             } else {
                 const currentNs = this.namespaceStack[0];
 
-                if (currentNs === html.NS.MATHML) {
-                    foreignContent.adjustTokenMathMLAttrs(token);
-                } else if (currentNs === html.NS.SVG) {
-                    foreignContent.adjustTokenSVGTagName(token);
-                    foreignContent.adjustTokenSVGAttrs(token);
-                }
-
-                foreignContent.adjustTokenXMLAttrs(token);
-
                 tn = token.tagID;
 
                 if (!token.selfClosing && foreignContent.isIntegrationPoint(tn, currentNs, token.attrs)) {
@@ -212,11 +203,6 @@ export class ParserFeedbackSimulator implements TokenHandler {
             (tn === $.MATH && this.namespaceStack[0] === html.NS.MATHML)
         ) {
             this._leaveCurrentNamespace();
-        }
-
-        // NOTE: adjust end tag name as well for consistency
-        if (this.namespaceStack[0] === html.NS.SVG) {
-            foreignContent.adjustTokenSVGTagName(token);
         }
 
         this.handler.onEndTag(token);

@@ -8,7 +8,9 @@
     "homepage": "https://parse5.js.org",
     "funding": "https://github.com/inikulin/parse5?sponsor=1",
     "dependencies": {
-        "entities": "^4.5.0"
+        "entities": "^4.5.0",
+        "typescript": "^4.9.5",
+        "uglify-js": "3.17.4"
     },
     "keywords": [
         "html",
