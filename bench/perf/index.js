@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import { readFileSync, createReadStream, readdirSync } from 'node:fs';
 import Benchmark from 'benchmark';
 import { loadTreeConstructionTestData } from 'parse5-test-utils/dist/generate-parsing-tests.js';
@@ -25,7 +27,7 @@ global.microTests = loadTreeConstructionTestData(treeConstructionPath, treeAdapt
     .filter(
         (test) =>
             //NOTE: this test caused a stack overflow in parse5 v1.x
-            test.input !== '<button><p><button>'
+            test.input !== '<button><p><button>',
     )
     .map((test) => ({
         html: test.input,

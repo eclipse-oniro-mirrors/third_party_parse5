@@ -77,7 +77,7 @@ const defaultOpts: InternalOptions<DefaultTreeAdapterMap> = { treeAdapter: defau
  */
 export function serialize<T extends TreeAdapterTypeMap = DefaultTreeAdapterMap>(
     node: T['parentNode'],
-    options?: SerializerOptions<T>
+    options?: SerializerOptions<T>,
 ): string {
     const opts = { ...defaultOpts, ...options } as InternalOptions<T>;
 
@@ -99,7 +99,7 @@ export function serialize<T extends TreeAdapterTypeMap = DefaultTreeAdapterMap>(
  * const document = parse5.parseFragment('<div>Hello, <b>world</b>!</div>');
  *
  * // Serializes the <div> element.
- * const html = parse5.serializeOuter(document.childNodes[0]);
+ * const str = parse5.serializeOuter(document.childNodes[0]);
  *
  * console.log(str); //> '<div>Hello, <b>world</b>!</div>'
  * ```
@@ -109,7 +109,7 @@ export function serialize<T extends TreeAdapterTypeMap = DefaultTreeAdapterMap>(
  */
 export function serializeOuter<T extends TreeAdapterTypeMap = DefaultTreeAdapterMap>(
     node: T['node'],
-    options?: SerializerOptions<T>
+    options?: SerializerOptions<T>,
 ): string {
     const opts = { ...defaultOpts, ...options } as InternalOptions<T>;
     return serializeNode(node, opts);
@@ -117,7 +117,7 @@ export function serializeOuter<T extends TreeAdapterTypeMap = DefaultTreeAdapter
 
 function serializeChildNodes<T extends TreeAdapterTypeMap>(
     parentNode: T['parentNode'],
-    options: InternalOptions<T>
+    options: InternalOptions<T>,
 ): string {
     let html = '';
     // Get container of the child nodes
@@ -165,15 +165,13 @@ function serializeElement<T extends TreeAdapterTypeMap>(node: T['element'], opti
 
 function serializeAttributes<T extends TreeAdapterTypeMap>(
     node: T['element'],
-    { treeAdapter }: InternalOptions<T>
+    { treeAdapter }: InternalOptions<T>,
 ): string {
     let html = '';
     for (const attr of treeAdapter.getAttrList(node)) {
         html += ' ';
 
-        if (!attr.namespace) {
-            html += attr.name;
-        } else
+        if (attr.namespace) {
             switch (attr.namespace) {
                 case NS.XML: {
                     html += `xml:${attr.name}`;
@@ -195,6 +193,9 @@ function serializeAttributes<T extends TreeAdapterTypeMap>(
                     html += `${attr.prefix}:${attr.name}`;
                 }
             }
+        } else {
+            html += attr.name;
+        }
 
         html += `="${escapeAttribute(attr.value)}"`;
     }
@@ -217,14 +218,14 @@ function serializeTextNode<T extends TreeAdapterTypeMap>(node: T['textNode'], op
 
 function serializeCommentNode<T extends TreeAdapterTypeMap>(
     node: T['commentNode'],
-    { treeAdapter }: InternalOptions<T>
+    { treeAdapter }: InternalOptions<T>,
 ): string {
     return `<!--${treeAdapter.getCommentNodeContent(node)}-->`;
 }
 
 function serializeDocumentTypeNode<T extends TreeAdapterTypeMap>(
     node: T['documentType'],
-    { treeAdapter }: InternalOptions<T>
+    { treeAdapter }: InternalOptions<T>,
 ): string {
     return `<!DOCTYPE ${treeAdapter.getDocumentTypeNodeName(node)}>`;
 }

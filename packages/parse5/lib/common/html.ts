@@ -139,6 +139,7 @@ export enum TAG_NAMES {
 
     S = 's',
     SCRIPT = 'script',
+    SEARCH = 'search',
     SECTION = 'section',
     SELECT = 'select',
     SOURCE = 'source',
@@ -174,25 +175,6 @@ export enum TAG_NAMES {
     WBR = 'wbr',
 
     XMP = 'xmp',
-// Unique self closing label
-    WEB = 'web',
-    XCOMPONENT = 'xcomponent',
-    RATING = 'rating',
-    CANVAS = 'canvas',
-    CAMERA = 'camera',
-    AUDIO = 'audio',
-    VIDEO = 'video',
-    SWITCH = 'switch',
-    QRCODE = 'qrcode',
-    PICKER_VIEW = 'picker-view',
-    PICKER = 'picker',
-    PROGRESS = 'progress',
-    SEARCH = 'search',
-    SLIDER = 'slider',
-    CHART = 'chart',
-    CALENDAR = 'calendar',
-    DIVIDER = 'divider',
-    IMAGE_ANIMATOR = 'image-animator',
 }
 
 /**
@@ -311,6 +293,7 @@ export enum TAG_ID {
 
     S,
     SCRIPT,
+    SEARCH,
     SECTION,
     SELECT,
     SOURCE,
@@ -346,24 +329,6 @@ export enum TAG_ID {
     WBR,
 
     XMP,
-    WEB,
-    XCOMPONENT,
-    RATING,
-    CANVAS,
-    CAMERA,
-    AUDIO,
-    VIDEO,
-    SWITCH,
-    QRCODE,
-    PICKER_VIEW,
-    PICKER,
-    PROGRESS,
-    SEARCH,
-    SLIDER,
-    CHART,
-    CALENDAR,
-    DIVIDER,
-    IMAGE_ANIMATOR,
 }
 
 const TAG_NAME_TO_ID = new Map<string, TAG_ID>([
@@ -460,6 +425,7 @@ const TAG_NAME_TO_ID = new Map<string, TAG_ID>([
     [TAG_NAMES.RUBY, TAG_ID.RUBY],
     [TAG_NAMES.S, TAG_ID.S],
     [TAG_NAMES.SCRIPT, TAG_ID.SCRIPT],
+    [TAG_NAMES.SEARCH, TAG_ID.SEARCH],
     [TAG_NAMES.SECTION, TAG_ID.SECTION],
     [TAG_NAMES.SELECT, TAG_ID.SELECT],
     [TAG_NAMES.SOURCE, TAG_ID.SOURCE],
@@ -489,24 +455,6 @@ const TAG_NAME_TO_ID = new Map<string, TAG_ID>([
     [TAG_NAMES.VAR, TAG_ID.VAR],
     [TAG_NAMES.WBR, TAG_ID.WBR],
     [TAG_NAMES.XMP, TAG_ID.XMP],
-    [TAG_NAMES.WEB, TAG_ID.WEB],
-    [TAG_NAMES.XCOMPONENT, TAG_ID.XCOMPONENT],
-    [TAG_NAMES.RATING, TAG_ID.RATING],
-    [TAG_NAMES.CANVAS, TAG_ID.CANVAS],
-    [TAG_NAMES.CAMERA, TAG_ID.CAMERA],
-    [TAG_NAMES.AUDIO, TAG_ID.AUDIO],
-    [TAG_NAMES.VIDEO, TAG_ID.VIDEO],
-    [TAG_NAMES.SWITCH, TAG_ID.SWITCH],
-    [TAG_NAMES.QRCODE, TAG_ID.QRCODE],
-    [TAG_NAMES.PICKER_VIEW, TAG_ID.PICKER_VIEW],
-    [TAG_NAMES.PICKER, TAG_ID.PICKER],
-    [TAG_NAMES.PROGRESS, TAG_ID.PROGRESS],
-    [TAG_NAMES.SEARCH, TAG_ID.SEARCH],
-    [TAG_NAMES.SLIDER, TAG_ID.SLIDER],
-    [TAG_NAMES.CHART, TAG_ID.CHART],
-    [TAG_NAMES.CALENDAR, TAG_ID.CALENDAR],
-    [TAG_NAMES.DIVIDER, TAG_ID.DIVIDER],
-    [TAG_NAMES.IMAGE_ANIMATOR, TAG_ID.IMAGE_ANIMATOR],
 ]);
 
 export function getTagID(tagName: string): TAG_ID {
@@ -598,24 +546,6 @@ export const SPECIAL_ELEMENTS: Record<NS, Set<TAG_ID>> = {
         $.UL,
         $.WBR,
         $.XMP,
-        $.WEB,
-        $.XCOMPONENT,
-        $.RATING,
-        $.CANVAS,
-        $.CAMERA,
-        $.AUDIO,
-        $.VIDEO,
-        $.SWITCH,
-        $.QRCODE,
-        $.PICKER_VIEW,
-        $.PICKER,
-        $.PROGRESS,
-        $.SEARCH,
-        $.SLIDER,
-        $.CHART,
-        $.CALENDAR,
-        $.DIVIDER,
-        $.IMAGE_ANIMATOR,
     ]),
     [NS.MATHML]: new Set([$.MI, $.MO, $.MN, $.MS, $.MTEXT, $.ANNOTATION_XML]),
     [NS.SVG]: new Set([$.TITLE, $.FOREIGN_OBJECT, $.DESC]),
@@ -624,9 +554,7 @@ export const SPECIAL_ELEMENTS: Record<NS, Set<TAG_ID>> = {
     [NS.XMLNS]: new Set(),
 };
 
-export function isNumberedHeader(tn: TAG_ID): boolean {
-    return tn === $.H1 || tn === $.H2 || tn === $.H3 || tn === $.H4 || tn === $.H5 || tn === $.H6;
-}
+export const NUMBERED_HEADERS = new Set([$.H1, $.H2, $.H3, $.H4, $.H5, $.H6]);
 
 const UNESCAPED_TEXT = new Set<string>([
     TAG_NAMES.STYLE,

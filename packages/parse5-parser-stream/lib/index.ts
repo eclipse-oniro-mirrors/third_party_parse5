@@ -1,8 +1,6 @@
 import { Writable } from 'node:stream';
 import { Parser, type ParserOptions, type TreeAdapterTypeMap, type DefaultTreeAdapterMap } from 'parse5';
 
-/* eslint-disable unicorn/consistent-function-scoping -- The rule seems to be broken here. */
-
 /**
  * Streaming HTML parser with scripting support.
  * A [writable stream](https://nodejs.org/api/stream.html#stream_class_stream_writable).
@@ -30,7 +28,7 @@ import { Parser, type ParserOptions, type TreeAdapterTypeMap, type DefaultTreeAd
 export class ParserStream<T extends TreeAdapterTypeMap = DefaultTreeAdapterMap> extends Writable {
     static getFragmentStream<T extends TreeAdapterTypeMap>(
         fragmentContext?: T['parentNode'] | null,
-        options?: ParserOptions<T>
+        options?: ParserOptions<T>,
     ): ParserStream<T> {
         const parser = Parser.getFragmentParser(fragmentContext, options);
         const stream = new ParserStream(options, parser);
@@ -52,7 +50,10 @@ export class ParserStream<T extends TreeAdapterTypeMap = DefaultTreeAdapterMap> 
     /**
      * @param options Parsing options.
      */
-    constructor(options?: ParserOptions<T>, public parser: Parser<T> = new Parser(options)) {
+    constructor(
+        options?: ParserOptions<T>,
+        public parser: Parser<T> = new Parser(options),
+    ) {
         super({ decodeStrings: false });
 
         const resume = (): void => {
@@ -135,7 +136,7 @@ export interface ParserStream<T extends TreeAdapterTypeMap = DefaultTreeAdapterM
      */
     on(
         event: 'script',
-        handler: (scriptElement: T['element'], documentWrite: (html: string) => void, resume: () => void) => void
+        handler: (scriptElement: T['element'], documentWrite: (html: string) => void, resume: () => void) => void,
     ): void;
     /**
      * Base event handler.

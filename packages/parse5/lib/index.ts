@@ -4,16 +4,29 @@ import type { DefaultTreeAdapterMap } from './tree-adapters/default.js';
 import type { TreeAdapterTypeMap } from './tree-adapters/interface.js';
 
 export { type DefaultTreeAdapterMap, defaultTreeAdapter } from './tree-adapters/default.js';
+import type * as DefaultTreeAdapter from './tree-adapters/default.js';
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace DefaultTreeAdapterTypes {
+    export type Document = DefaultTreeAdapter.Document;
+    export type DocumentFragment = DefaultTreeAdapter.DocumentFragment;
+    export type Element = DefaultTreeAdapter.Element;
+    export type CommentNode = DefaultTreeAdapter.CommentNode;
+    export type TextNode = DefaultTreeAdapter.TextNode;
+    export type Template = DefaultTreeAdapter.Template;
+    export type DocumentType = DefaultTreeAdapter.DocumentType;
+    export type ParentNode = DefaultTreeAdapter.ParentNode;
+    export type ChildNode = DefaultTreeAdapter.ChildNode;
+    export type Node = DefaultTreeAdapter.Node;
+    export type DefaultTreeAdapterMap = DefaultTreeAdapter.DefaultTreeAdapterMap;
+}
 export type { TreeAdapter, TreeAdapterTypeMap } from './tree-adapters/interface.js';
 export { type ParserOptions, /** @internal */ Parser } from './parser/index.js';
 export { serialize, serializeOuter, type SerializerOptions } from './serializer/index.js';
-export { ERR as ErrorCodes, type ParserError } from './common/error-codes.js';
+export { ERR as ErrorCodes, type ParserError, type ParserErrorHandler } from './common/error-codes.js';
 
 /** @internal */
 export * as foreignContent from './common/foreign-content.js';
-/** @internal */
 export * as html from './common/html.js';
-/** @internal */
 export * as Token from './common/token.js';
 /** @internal */
 export { Tokenizer, type TokenizerOptions, TokenizerMode, type TokenHandler } from './tokenizer/index.js';
@@ -39,7 +52,7 @@ export { Tokenizer, type TokenizerOptions, TokenizerMode, type TokenHandler } fr
  */
 export function parse<T extends TreeAdapterTypeMap = DefaultTreeAdapterMap>(
     html: string,
-    options?: ParserOptions<T>
+    options?: ParserOptions<T>,
 ): T['document'] {
     return Parser.parse(html, options);
 }
@@ -70,16 +83,16 @@ export function parse<T extends TreeAdapterTypeMap = DefaultTreeAdapterMap>(
 export function parseFragment<T extends TreeAdapterTypeMap = DefaultTreeAdapterMap>(
     fragmentContext: T['parentNode'] | null,
     html: string,
-    options: ParserOptions<T>
+    options: ParserOptions<T>,
 ): T['documentFragment'];
 export function parseFragment<T extends TreeAdapterTypeMap = DefaultTreeAdapterMap>(
     html: string,
-    options?: ParserOptions<T>
+    options?: ParserOptions<T>,
 ): T['documentFragment'];
 export function parseFragment<T extends TreeAdapterTypeMap = DefaultTreeAdapterMap>(
     fragmentContext: T['parentNode'] | null | string,
     html?: string | ParserOptions<T>,
-    options?: ParserOptions<T>
+    options?: ParserOptions<T>,
 ): T['documentFragment'] {
     if (typeof fragmentContext === 'string') {
         options = html as ParserOptions<T>;

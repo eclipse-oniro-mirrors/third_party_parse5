@@ -30,8 +30,6 @@ export interface Location {
 export interface LocationWithAttributes extends Location {
     /** Start tag attributes' location info. */
     attrs?: Record<string, Location>;
-    line?: number;
-    col?: number;
 }
 
 export interface ElementLocation extends LocationWithAttributes {
