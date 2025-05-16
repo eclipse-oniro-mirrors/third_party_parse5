@@ -70,7 +70,7 @@ const SVG_ATTRS_ADJUSTMENT_MAP = new Map(
         'xChannelSelector',
         'yChannelSelector',
         'zoomAndPan',
-    ].map((attr) => [attr.toLowerCase(), attr])
+    ].map((attr) => [attr.toLowerCase(), attr]),
 );
 
 const XML_ATTRS_ADJUSTMENT_MAP = new Map([
@@ -81,7 +81,6 @@ const XML_ATTRS_ADJUSTMENT_MAP = new Map([
     ['xlink:show', { prefix: 'xlink', name: 'show', namespace: NS.XLINK }],
     ['xlink:title', { prefix: 'xlink', name: 'title', namespace: NS.XLINK }],
     ['xlink:type', { prefix: 'xlink', name: 'type', namespace: NS.XLINK }],
-    ['xml:base', { prefix: 'xml', name: 'base', namespace: NS.XML }],
     ['xml:lang', { prefix: 'xml', name: 'lang', namespace: NS.XML }],
     ['xml:space', { prefix: 'xml', name: 'space', namespace: NS.XML }],
     ['xmlns', { prefix: '', name: 'xmlns', namespace: NS.XMLNS }],
@@ -127,7 +126,7 @@ export const SVG_TAG_NAMES_ADJUSTMENT_MAP = new Map(
         'linearGradient',
         'radialGradient',
         'textPath',
-    ].map((tn) => [tn.toLowerCase(), tn])
+    ].map((tn) => [tn.toLowerCase(), tn]),
 );
 
 //Tags that causes exit from foreign content

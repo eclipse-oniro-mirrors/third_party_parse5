@@ -22,7 +22,10 @@ export class ParserFeedbackSimulator implements TokenHandler {
     public skipNextNewLine = false;
     public tokenizer: Tokenizer;
 
-    constructor(options: TokenizerOptions, private handler: TokenHandler) {
+    constructor(
+        options: TokenizerOptions,
+        private handler: TokenHandler,
+    ) {
         this.tokenizer = new Tokenizer(options, this);
         this._enterNamespace(html.NS.HTML);
     }
@@ -146,6 +149,7 @@ export class ParserFeedbackSimulator implements TokenHandler {
                 this._leaveCurrentNamespace();
             } else {
                 const currentNs = this.namespaceStack[0];
+
                 tn = token.tagID;
 
                 if (!token.selfClosing && foreignContent.isIntegrationPoint(tn, currentNs, token.attrs)) {

@@ -139,6 +139,7 @@ export enum TAG_NAMES {
 
     S = 's',
     SCRIPT = 'script',
+    SEARCH = 'search',
     SECTION = 'section',
     SELECT = 'select',
     SOURCE = 'source',
@@ -174,7 +175,7 @@ export enum TAG_NAMES {
     WBR = 'wbr',
 
     XMP = 'xmp',
-// Unique self closing label
+    // Unique self closing label
     WEB = 'web',
     XCOMPONENT = 'xcomponent',
     RATING = 'rating',
@@ -187,7 +188,6 @@ export enum TAG_NAMES {
     PICKER_VIEW = 'picker-view',
     PICKER = 'picker',
     PROGRESS = 'progress',
-    SEARCH = 'search',
     SLIDER = 'slider',
     CHART = 'chart',
     CALENDAR = 'calendar',
@@ -311,6 +311,7 @@ export enum TAG_ID {
 
     S,
     SCRIPT,
+    SEARCH,
     SECTION,
     SELECT,
     SOURCE,
@@ -358,7 +359,6 @@ export enum TAG_ID {
     PICKER_VIEW,
     PICKER,
     PROGRESS,
-    SEARCH,
     SLIDER,
     CHART,
     CALENDAR,
@@ -460,6 +460,7 @@ const TAG_NAME_TO_ID = new Map<string, TAG_ID>([
     [TAG_NAMES.RUBY, TAG_ID.RUBY],
     [TAG_NAMES.S, TAG_ID.S],
     [TAG_NAMES.SCRIPT, TAG_ID.SCRIPT],
+    [TAG_NAMES.SEARCH, TAG_ID.SEARCH],
     [TAG_NAMES.SECTION, TAG_ID.SECTION],
     [TAG_NAMES.SELECT, TAG_ID.SELECT],
     [TAG_NAMES.SOURCE, TAG_ID.SOURCE],
@@ -501,7 +502,6 @@ const TAG_NAME_TO_ID = new Map<string, TAG_ID>([
     [TAG_NAMES.PICKER_VIEW, TAG_ID.PICKER_VIEW],
     [TAG_NAMES.PICKER, TAG_ID.PICKER],
     [TAG_NAMES.PROGRESS, TAG_ID.PROGRESS],
-    [TAG_NAMES.SEARCH, TAG_ID.SEARCH],
     [TAG_NAMES.SLIDER, TAG_ID.SLIDER],
     [TAG_NAMES.CHART, TAG_ID.CHART],
     [TAG_NAMES.CALENDAR, TAG_ID.CALENDAR],
@@ -624,9 +624,7 @@ export const SPECIAL_ELEMENTS: Record<NS, Set<TAG_ID>> = {
     [NS.XMLNS]: new Set(),
 };
 
-export function isNumberedHeader(tn: TAG_ID): boolean {
-    return tn === $.H1 || tn === $.H2 || tn === $.H3 || tn === $.H4 || tn === $.H5 || tn === $.H6;
-}
+export const NUMBERED_HEADERS = new Set([$.H1, $.H2, $.H3, $.H4, $.H5, $.H6]);
 
 const UNESCAPED_TEXT = new Set<string>([
     TAG_NAMES.STYLE,

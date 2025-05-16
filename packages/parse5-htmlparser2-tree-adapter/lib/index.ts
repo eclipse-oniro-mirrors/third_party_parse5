@@ -27,10 +27,6 @@ export type Htmlparser2TreeAdapterMap = TreeAdapterTypeMap<
     ProcessingInstruction
 >;
 
-function createTextNode(value: string): Text {
-    return new Text(value);
-}
-
 function enquoteDoctypeId(id: string): string {
     const quote = id.includes('"') ? "'" : '"';
 
@@ -99,6 +95,10 @@ export const adapter: TreeAdapter<Htmlparser2TreeAdapterMap> = {
         return new Comment(data);
     },
 
+    createTextNode(value: string): Text {
+        return new Text(value);
+    },
+
     //Tree mutation
     appendChild(parentNode: ParentNode, newNode: ChildNode): void {
         const prev = parentNode.children[parentNode.children.length - 1];
@@ -139,7 +139,7 @@ export const adapter: TreeAdapter<Htmlparser2TreeAdapterMap> = {
     setDocumentType(document: Document, name: string, publicId: string, systemId: string): void {
         const data = serializeDoctypeContent(name, publicId, systemId);
         let doctypeNode = document.children.find(
-            (node): node is ProcessingInstruction => isDirective(node) && node.name === '!doctype'
+            (node): node is ProcessingInstruction => isDirective(node) && node.name === '!doctype',
         );
 
         if (doctypeNode) {
@@ -189,7 +189,7 @@ export const adapter: TreeAdapter<Htmlparser2TreeAdapterMap> = {
         if (lastChild && isText(lastChild)) {
             lastChild.data += text;
         } else {
-            adapter.appendChild(parentNode, createTextNode(text));
+            adapter.appendChild(parentNode, adapter.createTextNode(text));
         }
     },
 
@@ -199,7 +199,7 @@ export const adapter: TreeAdapter<Htmlparser2TreeAdapterMap> = {
         if (prevNode && isText(prevNode)) {
             prevNode.data += text;
         } else {
-            adapter.insertBefore(parentNode, createTextNode(text), referenceNode);
+            adapter.insertBefore(parentNode, adapter.createTextNode(text), referenceNode);
         }
     },
 
@@ -207,7 +207,7 @@ export const adapter: TreeAdapter<Htmlparser2TreeAdapterMap> = {
         for (let i = 0; i < attrs.length; i++) {
             const attrName = attrs[i].name;
 
-            if (typeof recipient.attribs[attrName] === 'undefined') {
+            if (recipient.attribs[attrName] === undefined) {
                 recipient.attribs[attrName] = attrs[i].value;
                 recipient['x-attribsNamespace']![attrName] = attrs[i].namespace!;
                 recipient['x-attribsPrefix']![attrName] = attrs[i].prefix!;

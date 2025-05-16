@@ -41,6 +41,7 @@ export interface SAXParserOptions {
  */
 export class SAXParser extends Transform implements TokenHandler {
     protected options: SAXParserOptions;
+    /** @internal */
     protected parserFeedbackSimulator: ParserFeedbackSimulator;
     private pendingText: Text | null = null;
     private lastChunkWritten = false;
@@ -71,7 +72,7 @@ export class SAXParser extends Transform implements TokenHandler {
     override _transform(
         chunk: string,
         _encoding: string,
-        callback: (error?: Error | null, data?: string) => void
+        callback: (error?: Error | null, data?: string) => void,
     ): void {
         if (typeof chunk !== 'string') {
             throw new TypeError('Parser can work only with string streams.');

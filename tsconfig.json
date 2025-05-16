@@ -11,20 +11,9 @@
         "noImplicitOverride": true,
         "noPropertyAccessFromIndexSignature": true,
         "forceConsistentCasingInFileNames": true,
-        "importsNotUsedAsValues": "error",
         "isolatedModules": true,
-
         "composite": false,
-        "declarationMap": true,
-        "sourceMap": true
+        "skipLibCheck": true
     },
-    "references": [{ "path": "packages/parse5/tsconfig.json" }],
-    "typedocOptions": {
-        "out": "docs/build",
-        "name": "parse5",
-        "readme": "README.md",
-        "emit": "docs",
-        "excludeInternal": true,
-        "entryPointStrategy": "packages"
-    }
+    "references": [{ "path": "packages/parse5/tsconfig.json" }]
 }
