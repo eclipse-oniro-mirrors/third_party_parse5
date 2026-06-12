@@ -20,7 +20,7 @@
         "rom": "",
         "ram": "",
         "deps": {
-            "components": [],
+            "components": [ "ace_js2bundle" ],
             "third_party": []
         },
         "build": {
