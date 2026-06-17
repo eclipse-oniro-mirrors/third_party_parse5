@@ -68,7 +68,11 @@ ohos_copy("parse5_ark_hap") {
     ":build_parse5_library",
     ":parse5",
   ]
-  external_deps = [ "ace_js2bundle:ace_loader_ark_hap" ]
+  if (!is_arkui_x) {
+    external_deps = [ "ace_js2bundle:ace_loader_ark_hap" ]
+  } else {
+    deps += [ "//developtools/ace_js2bundle:ace_loader_ark_hap" ]
+  }
   sources = [ parse5_lib_dir ]
   outputs = [ ace_loader_ark_dir + "/lib/parse" ]
 }
